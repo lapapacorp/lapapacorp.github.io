@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les gourdes Papajoue à travers le monde</title>
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="style.css">
+<style>
+  .viewer {
+    margin-top: 24px;
+  }
+  .viewer-main {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    min-height: 320px;
+    max-height: 640px;
+  }
+  .viewer-main img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .viewer-arrow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    border: none;
+    background: linear-gradient(to var(--dir), rgba(0,0,0,0.35), transparent);
+    color: var(--text);
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .viewer-arrow:hover { background: rgba(0,0,0,0.5); }
+  .viewer-arrow.prev { left: 0; justify-content: flex-start; padding-left: 10px; }
+  .viewer-arrow.next { right: 0; justify-content: flex-end; padding-right: 10px; }
+  .viewer-count {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 10px;
+  }
+  .thumb-strip {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 14px 2px;
+    scroll-behavior: smooth;
+  }
+  .thumb-strip img {
+    width: 84px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 0.15s ease, border-color 0.15s ease;
+  }
+  .thumb-strip img:hover { opacity: 0.9; }
+  .thumb-strip img.active {
+    opacity: 1;
+    border-color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">Papajoue</a>
+    <nav class="site-nav">
+      <a href="index.html">Accueil</a>
+      <a href="programme.html">Programme</a>
+      <a href="partenaires.html">Partenaires</a>
+      <a href="setup.html">Setup</a>
+      <a href="gourdes.html" class="active">Gourdes</a>
+      <a href="apropos.html">À propos</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Les gourdes Papajoue à travers le monde</h1>
+    <p class="lede">J'offre une gourde à mon effigie aux viewers les plus assidus — et régulièrement, ils m'envoient une photo d'elle en voyage, en rando, au travail ou entre deux lives. Voici toutes celles que j'ai reçues jusqu'ici.</p>
+  </div>
+
+  <div class="viewer">
+    <div class="viewer-main">
+      <button class="viewer-arrow prev" style="--dir: left;" onclick="showPhoto(current - 1)" aria-label="Photo précédente">&#8249;</button>
+      <img id="main-photo" src="img/gourdes/gourde-01.jpg" alt="Gourde Papajoue">
+      <button class="viewer-arrow next" style="--dir: right;" onclick="showPhoto(current + 1)" aria-label="Photo suivante">&#8250;</button>
+    </div>
+    <div class="viewer-count" id="photo-count">1 / 93</div>
+    <div class="thumb-strip" id="thumb-strip"></div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <img src="img/logo-complet-light.png" alt="Signature Papajoue" style="height:38px; width:auto; display:block; margin:0 auto 12px auto; opacity:0.9;">
+  Papajoue — site en construction, complété au fil des streams.
+</footer>
+
+<script>
+  const photos = [
+    'gourde-01',
+    'gourde-02',
+    'gourde-03',
+    'gourde-04',
+    'gourde-05',
+    'gourde-06',
+    'gourde-07',
+    'gourde-10',
+    'gourde-11',
+    'gourde-12',
+    'gourde-13',
+    'gourde-14',
+    'gourde-15',
+    'gourde-16',
+    'gourde-17',
+    'gourde-18',
+    'gourde-19',
+    'gourde-20',
+    'gourde-21',
+    'gourde-22',
+    'gourde-23',
+    'gourde-24',
+    'gourde-25',
+    'gourde-26',
+    'gourde-27',
+    'gourde-28',
+    'gourde-29',
+    'gourde-30',
+    'gourde-31',
+    'gourde-32',
+    'gourde-33',
+    'gourde-34',
+    'gourde-35',
+    'gourde-36',
+    'gourde-37',
+    'gourde-38',
+    'gourde-39',
+    'gourde-40',
+    'gourde-41',
+    'gourde-42',
+    'gourde-43',
+    'gourde-44',
+    'gourde-45',
+    'gourde-46',
+    'gourde-47',
+    'gourde-48',
+    'gourde-49',
+    'gourde-50',
+    'gourde-51',
+    'gourde-52',
+    'gourde-53',
+    'gourde-54',
+    'gourde-55',
+    'gourde-56',
+    'gourde-57',
+    'gourde-58',
+    'gourde-59',
+    'gourde-60',
+    'gourde-61',
+    'gourde-62',
+    'gourde-63',
+    'gourde-64',
+    'gourde-65',
+    'gourde-66',
+    'gourde-67',
+    'gourde-68',
+    'gourde-69',
+    'gourde-70',
+    'gourde-71',
+    'gourde-72',
+    'gourde-73',
+    'gourde-74',
+    'gourde-75',
+    'gourde-76',
+    'gourde-77',
+    'gourde-78',
+    'gourde-79',
+    'gourde-80',
+    'gourde-81',
+    'gourde-82',
+    'gourde-83',
+    'gourde-84',
+    'gourde-85',
+    'gourde-86',
+    'gourde-87',
+    'gourde-88',
+    'gourde-89',
+    'gourde-90',
+    'gourde-91',
+    'gourde-92',
+    'gourde-93'
+  ];
+  let current = 0;
+
+  const mainPhoto = document.getElementById('main-photo');
+  const countLabel = document.getElementById('photo-count');
+  const strip = document.getElementById('thumb-strip');
+
+  photos.forEach((slug, i) => {
+    const t = document.createElement('img');
+    t.src = 'img/gourdes/' + slug + '-thumb.jpg';
+    t.alt = 'Miniature ' + (i + 1);
+    t.dataset.index = i;
+    t.addEventListener('click', () => showPhoto(i));
+    strip.appendChild(t);
+  });
+
+  function showPhoto(i) {
+    current = (i + photos.length) % photos.length;
+    mainPhoto.src = 'img/gourdes/' + photos[current] + '.jpg';
+    countLabel.textContent = (current + 1) + ' / ' + photos.length;
+    [...strip.children].forEach((el, idx) => {
+      el.classList.toggle('active', idx === current);
+    });
+    const activeThumb = strip.children[current];
+    if (activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') showPhoto(current - 1);
+    if (e.key === 'ArrowRight') showPhoto(current + 1);
+  });
+
+  showPhoto(0);
+</script>
+
+</body>
+</html>
