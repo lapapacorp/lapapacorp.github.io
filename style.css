@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..800,0..100,0..1&family=Work+Sans:wght@400;500;600&display=swap');
 
 :root {
   --bg: #17121D;
@@ -10,6 +10,10 @@
   --accent-soft: #7C6A9E;
   --border: #362A44;
   --focus: #B15CE0;
+
+  /* Courbes d'animation (Emil Kowalski) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 * { box-sizing: border-box; }
@@ -75,7 +79,8 @@ header.site-header .inner {
 
 nav.site-nav {
   display: flex;
-  gap: 22px;
+  flex-wrap: wrap;
+  gap: 8px 22px;
   font-size: 0.95rem;
 }
 
@@ -131,8 +136,11 @@ nav.site-nav a.active {
   border-radius: 10px;
   padding: 18px 22px;
   color: var(--text);
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 150ms ease, border-color 150ms ease, transform 160ms var(--ease-out);
 }
+
+/* Retour tactile au clic */
+.link-list a.tile:active { transform: scale(0.97); }
 
 .link-list a.tile:hover {
   background: var(--bg-card-hover);
@@ -182,4 +190,221 @@ footer.site-footer {
   border-top: 1px solid var(--border);
   color: var(--text-muted);
   font-size: 0.85rem;
+}
+
+/* =========================================================
+   Transitions entre pages (toutes les pages)
+   Chrome, Edge, Safari récents. Ailleurs : changement normal.
+   ========================================================= */
+@view-transition { navigation: auto; }
+
+header.site-header { view-transition-name: site-header; }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: var(--ease-out);
+}
+
+/* =========================================================
+   Page d'accueil
+   ========================================================= */
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 28px;
+  padding: 64px 0 12px 0;
+}
+
+.home-title {
+  font-size: clamp(3.4rem, 13vw, 6.5rem);
+  font-weight: 800;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.home-roles {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.35rem;
+  font-style: normal;
+  color: var(--text);
+  margin: 14px 0 0 0;
+}
+
+.home-live {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 22px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  font-size: 0.95rem;
+}
+
+.home-live strong { color: var(--text); font-weight: 600; white-space: nowrap; }
+.home-live span { white-space: nowrap; }
+.home-live span { color: var(--text-muted); }
+
+.home-live .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.home-logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: var(--text);
+  padding: 10px;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.home-logo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.home-grid a.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 150px;
+  padding: 20px 110px 20px 22px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--text);
+  overflow: hidden;
+  transition: background 150ms ease, border-color 150ms ease, transform 160ms var(--ease-out);
+}
+
+.home-grid a.tile:hover { text-decoration: none; }
+.home-grid a.tile:active { transform: scale(0.97); }
+
+.home-grid .tile-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.15;
+}
+
+.home-grid .tile-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+.home-grid .tile-emote {
+  position: absolute;
+  right: 14px;
+  bottom: 0;
+  width: 88px;
+  height: 88px;
+  transition: transform 200ms var(--ease-out);
+}
+
+/* La tuile Twitch : pleine largeur, mise en avant */
+.home-grid a.tile.tile-live {
+  grid-column: 1 / -1;
+  min-height: 190px;
+  padding-right: 170px;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #17121D;
+}
+
+.home-grid a.tile.tile-live .tile-title { font-size: 2rem; }
+.home-grid a.tile.tile-live .tile-desc { color: #2A1D36; font-size: 1rem; }
+.home-grid a.tile.tile-live .tile-emote { width: 140px; height: 140px; right: 22px; bottom: 0; }
+
+/* Survol : uniquement avec une souris (pas de faux survol au toucher) */
+@media (hover: hover) and (pointer: fine) {
+  .home-grid a.tile:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-soft);
+  }
+  .home-grid a.tile.tile-live:hover {
+    background: #BD72E6;
+    border-color: #BD72E6;
+  }
+  .home-grid a.tile:hover .tile-emote {
+    transform: translateY(-6px) rotate(-6deg);
+  }
+}
+
+/* Entrée de la page : une seule fois par visite */
+@keyframes home-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes home-pop {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.intro .home-title,
+.intro .home-roles,
+.intro .home-live,
+.intro .home-grid a.tile {
+  animation: home-rise 520ms var(--ease-out) both;
+}
+.intro .home-logo { animation: home-pop 520ms var(--ease-out) both; }
+
+.intro .home-roles { animation-delay: 60ms; }
+.intro .home-live  { animation-delay: 120ms; }
+.intro .home-logo  { animation-delay: 80ms; }
+.intro .home-grid a.tile:nth-child(1) { animation-delay: 200ms; }
+.intro .home-grid a.tile:nth-child(2) { animation-delay: 250ms; }
+.intro .home-grid a.tile:nth-child(3) { animation-delay: 300ms; }
+.intro .home-grid a.tile:nth-child(4) { animation-delay: 350ms; }
+.intro .home-grid a.tile:nth-child(5) { animation-delay: 400ms; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    padding-top: 40px;
+  }
+  nav.site-nav { gap: 6px 16px; }
+  .home-live { border-radius: 16px; }
+  .home-logo { width: 96px; height: 96px; padding: 6px; order: -1; }
+  .home-grid { grid-template-columns: 1fr; }
+  .home-grid a.tile { min-height: 120px; padding-right: 96px; }
+  .home-grid .tile-emote { width: 72px; height: 72px; }
+  .home-grid a.tile.tile-live { min-height: 160px; padding-right: 116px; }
+  .home-grid a.tile.tile-live .tile-title { font-size: 1.7rem; }
+  .home-grid a.tile.tile-live .tile-emote { width: 96px; height: 96px; right: 12px; }
+}
+
+@keyframes home-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Réduire les animations : on garde les fondus, on supprime les mouvements */
+@media (prefers-reduced-motion: reduce) {
+  .intro .home-title,
+  .intro .home-roles,
+  .intro .home-live,
+  .intro .home-logo,
+  .intro .home-grid a.tile { animation-name: home-fade; animation-duration: 300ms; }
+  .link-list a.tile:active,
+  .home-grid a.tile:active { transform: none; }
+  .home-grid a.tile:hover .tile-emote { transform: none; }
 }

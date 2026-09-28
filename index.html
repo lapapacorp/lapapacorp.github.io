@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Papajoue</title>
 <link rel="icon" href="img/logo.png">
+<script>
+  // Animation d'arrivée : seulement à la première visite de l'accueil pendant la session
+  try {
+    if (!sessionStorage.getItem('papajoue-intro')) {
+      document.documentElement.classList.add('intro');
+      sessionStorage.setItem('papajoue-intro', '1');
+    }
+  } catch (e) {}
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,38 +33,48 @@
 </header>
 
 <main class="wrap">
-  <div class="hero" style="display:flex; align-items:center; gap:20px;">
-    <div style="background:var(--text); border-radius:50%; padding:6px; flex-shrink:0; display:flex; box-shadow: 0 0 0 2px var(--accent-soft);">
-      <img src="img/logo.png" alt="Logo Papajoue" style="width:76px; height:76px; border-radius:50%; display:block;">
-    </div>
+  <section class="home-hero">
     <div>
-      <h1 style="margin-bottom:0;">Papajoue</h1>
-      <p class="lede" style="margin-top:8px;">Papajoue, papa, prof, streamer. Cette page réunit les infos générales pour découvrir mon univers.</p>
+      <h1 class="home-title">Papajoue</h1>
+      <p class="home-roles">Papa, prof, streamer.</p>
+      <p class="home-live">
+        <span class="dot" aria-hidden="true"></span>
+        <strong>En live à 21h30</strong>
+        <span>du mardi au dimanche</span>
+      </p>
     </div>
-  </div>
+    <div class="home-logo">
+      <img src="img/logo.png" alt="Logo Papajoue">
+    </div>
+  </section>
 
-  <div class="link-list">
-    <a class="tile" href="https://www.twitch.tv/papajoue" target="_blank" rel="noopener">
-      <span class="tile-title">Live sur Twitch</span>
-      <span class="tile-desc">twitch.tv/papajoue — rejoins le live directement.</span>
+  <nav class="home-grid" aria-label="Rubriques du site">
+    <a class="tile tile-live" href="https://www.twitch.tv/papajoue" target="_blank" rel="noopener">
+      <span class="tile-title">Rejoins le live</span>
+      <span class="tile-desc">twitch.tv/papajoue</span>
+      <img class="tile-emote" src="img/emotes/mini/hype.webp" alt="" width="140" height="140">
     </a>
     <a class="tile" href="programme.html">
       <span class="tile-title">Programme</span>
-      <span class="tile-desc">Le planning des streams, toujours à jour, plus besoin d'aller le chercher sur Discord.</span>
+      <span class="tile-desc">Le planning de la semaine, toujours à jour.</span>
+      <img class="tile-emote" src="img/emotes/mini/yo.webp" alt="" width="88" height="88">
     </a>
     <a class="tile" href="partenaires.html">
       <span class="tile-title">Partenaires</span>
-      <span class="tile-desc">Liens affiliés et parrainage : jeux, cashback, banque et plus.</span>
+      <span class="tile-desc">Liens affiliés et parrainage : jeux, cashback, banque.</span>
+      <img class="tile-emote" src="img/emotes/mini/stonks.webp" alt="" width="88" height="88">
     </a>
     <a class="tile" href="gourdes.html">
       <span class="tile-title">Gourdes à travers le monde</span>
-      <span class="tile-desc">Les photos envoyées par les viewers avec leur gourde Papajoue.</span>
+      <span class="tile-desc">Les photos des viewers avec leur gourde Papajoue.</span>
+      <img class="tile-emote" src="img/emotes/mini/party.webp" alt="" width="88" height="88">
     </a>
     <a class="tile" href="apropos.html">
       <span class="tile-title">À propos</span>
       <span class="tile-desc">Qui je suis, ce que je stream, et depuis quand.</span>
+      <img class="tile-emote" src="img/emotes/mini/prof.webp" alt="" width="88" height="88">
     </a>
-  </div>
+  </nav>
 </main>
 
 <footer class="site-footer">
